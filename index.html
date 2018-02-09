@@ -7,7 +7,7 @@
 		<title>reveal.js</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -24,8 +24,357 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+
+				<section data-background="img/bg1.png" data-state="darkslide">
+					<h5>Universidad Técnica Particular de Loja</h5>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<h5>Titulación de Sistemas Informáticos y Computación</h5>
+				</section>
+
+				<section data-background="img/bg1.png" data-state="darkslide">
+					<h3>GitEDU y otros servicios</h3>
+					<h4>IDE Prototipo Integra para Programación Estudiantil en Linea</h4>
+					<br>
+					<br>
+					<p><b>Autor:</b> Nicholas Spalding Earley-Dolenc</p>
+					<p><b>Director:</b> Dr. Jorge López</p>
+				</section>
+
+				<section>
+					<section data-background="img/bg2.png" data-markdown data-state="lightslide">
+						### Arquitectura de la Solución
+					</section>
+					<section data-state="lightslide">
+						<img src="img/arq_desp_final_tesis.png" width="50%">
+					</section>
+					<section data-markdown data-state="darkslide">
+						### Usuarios
+						- root
+						- git
+						- uwsgi
+						- postgres
+						- mongodb
+					</section>
+					<section data-markdown data-state="darkslide">
+						#### root
+						- Systemd (Gestor de Servicios)
+						- OpenSSH (Git + Automatizacion de Despliegue de Servicios)
+						- NGinX (Proxy Inversa)
+						- Docker (Servicios Auiliares)
+						- Xen (Cluster de Kubernetes)
+					</section>
+					<section data-markdown data-state="darkslide">
+						#### git
+						- GitWeb (NGinX as proxy)
+						- GitServerHTTPEndpoint (Django)
+
+						#### uwsgi
+						- GitEDU (Django)
+						- EduNube (Django)
+						- uWSGI Emperor (Systemd)
+					</section>
+					<section data-markdown data-state="darkslide">
+						#### postgres
+						- PostgreSQL
+
+						#### mongodb
+						- mongod
+					</section>
+				</section>
+
+				<section>
+					<section data-background="img/bg2.png" data-markdown data-state="lightslide">
+						### Resumen de Servicios
+					</section>
+					<section data-state="skyslide" data-markdown data-background="img/bg3.png">
+						### GitEDU
+						Servicio para dar editor de codigo en linea.
+					</section>
+					<section data-state="skyslide" data-markdown>
+						- **Puerto Desarollo:** 8000/HTTP
+						- **Produccion:**
+							+ _Alias:_ gitedu.localhost
+							+ _Puertos:_
+								- 80/HTTP (NGinX - subdominio)
+								- 8000/HTTP (NGinX - proxy inversa + archivos estaticos)
+								- 8002/HTTP (uWSGI - servidor aplicaciones)
+						- **Repositorios:**
+							+ [Gitlab/GitEDU](https://gitlab.com/nishedcob/GitEDU/)[/GitEDU](https://gitlab.com/nishedcob/GitEDU/tree/master/GitEDU)
+							+ [Github/GitEDU](https://github.com/nishedcob/GitEDU/)[/GitEDU](https://github.com/nishedcob/GitEDU/tree/master/GitEDU)
+					</section>
+					<section data-state="skyslide" data-markdown data-background="img/bg3.png">
+						### EduNube
+						Servicio para ejecutar código.
+					</section>
+					<section data-state="skyslide" data-markdown>
+						- **Puerto Desarollo:** 8001/HTTP
+						- **Produccion:**
+							+ _Alias:_ edunube.localhost
+							+ _Puertos:_
+								- 80/HTTP (NGinX - subdominio)
+								- 8010/HTTP (NGinX - proxy inversa + archivos estaticos)
+								- 8011/HTTP (uWSGI - servidor aplicaciones)
+						- **Repositorios:**
+							+ [Gitlab/GitEDU](https://gitlab.com/nishedcob/GitEDU/)[/EduNube](https://gitlab.com/nishedcob/GitEDU/tree/master/EduNube)
+							+ [Github/GitEDU](https://github.com/nishedcob/GitEDU/)[/EduNube](https://github.com/nishedcob/GitEDU/tree/master/EduNube)
+					</section>
+					<section data-state="skyslide" data-markdown data-background="img/bg3.png">
+						### GitServerHTTPEndpoint
+						Servicio para persistir código en servidores de Git.
+					</section>
+					<section data-state="skyslide" data-markdown>
+						- **Puerto Desarollo:** 8002/HTTP
+						- **Produccion:**
+							+ _Alias:_ gitserverhttpendpoint.localhost
+							+ _Puertos:_
+								- 80/HTTP (NGinX - subdominio)
+								- 8020/HTTP (NGinX - proxy inversa + archivos estaticos)
+								- 8021/HTTP (uWSGI - servidor aplicaciones)
+						- **Repositorios:**
+							+ [Gitlab/GitServerHTTPEndpoint](https://gitlab.com/nishedcob/GitServerHTTPEndpoint/)
+							+ [Github/GitServerHTTPEndpoint](https://github.com/nishedcob/GitServerHTTPEndpoint/)
+					</section>
+					<section data-state="skyslide" data-markdown data-background="img/bg3.png">
+						### Servicios Auxiliares Nativos
+						#### (Debian 9.x Dom0)
+						Servicios de apoyo durante desarrollo y en producción.
+					</section>
+					<section data-state="skyslide" data-markdown>
+						### Systemd
+						Sistema en Linux para init y gestión de servicios de sistema.
+					</section>
+					<section data-state="skyslide" data-markdown>
+						### OpenSSH
+						Provee protocolo alternativa y de mayor rendimiento para Git, tanto para subir a GitWeb, como para desplegar cambios mediante git push.
+						- **Produccion:**
+							+ _Puertos:_
+								- 22/SSH (OpenSSH)
+					</section>
+					<section data-state="skyslide" data-markdown>
+						### GitWeb
+						Script CGI que provee servidor muy sencilla de Git.
+						- **Produccion:**
+							+ _Alias:_ git.localhost, 10.10.10.1
+							+ _Puertos:_
+								- 80/HTTP (NGinX)
+					</section>
+					<section data-state="skyslide" data-markdown>
+						### uWSGI
+						Servidor de aplicacion de Python, en modo emperador se trabaja con un patron de diseño tipo reactor y detecta y reinicia trabajadores que dejen de responder a peticiones.
+					</section>
+					<section data-state="skyslide" data-markdown data-background="img/bg3.png">
+						### Servicios Auxiliares Nativos (Bases de Datos)
+						#### (Debian 9.x Dom0)
+						Servicios (Bases de Datos) de apoyo durante desarrollo y en producción.
+					</section>
+					<section data-state="skyslide" data-markdown>
+						### PostgreSQL
+						Base de Datos Relacional para el alojamiento de la gran mayoria de los datos estrucutados dentro de los tres servicios.
+						- **Produccion:**
+							+ _Puertos:_
+								- 5432/TCP (PostgreSQL)
+					</section>
+					<section data-state="skyslide" data-markdown>
+						### MongoDB
+						Base de Datos NoSQL para el alojamiento de los datos menos estrucutados dentro de los servicios GitEDU (principalmente código editada en la plataforma) y EduNube (resultados de ejecucciones anteriores para mejorar el rendimiento).
+						- **Produccion:**
+							+ _Puertos:_
+								- 27017/TCP (MongoDB)
+					</section>
+					<section data-state="skyslide" data-markdown data-background="img/bg3.png">
+						### Servicios Auxiliares Virtualizados (Xen)
+						Servicios de apoyo durante desarrollo y en producción.
+					</section>
+					<section data-state="skyslide" data-markdown>
+						### Kubernetes (K8s) Cluster
+						#### (Debian 9.x DomU)
+						Provee backend de virtualización y trabajos por lotes mediante Docker.
+						- **Produccion:**
+							+ _Alias:_ k8s.localhost
+							+ _Puertos:_
+								- 80/HTTP (NGinX - subdominio)
+								- 8001/HTTP (kubectl Proxy)
+					</section>
+					<section data-state="skyslide" data-markdown data-background="img/bg3.png">
+						### Servicios Auxiliares en Docker
+						Servicios de apoyo durante desarrollo y en producción, alojados con Docker.
+					</section>
+					<section data-state="skyslide" data-markdown>
+						### Docker Registry
+						#### (Docker)
+						Provee imagenes de Docker al cluster de Kubernetes.
+						- **Produccion:**
+							+ _Alias:_ registry.localhost
+							+ _Puertos:_
+								- 80/HTTP (NGinX - subdominio)
+								- 5000/HTTP (Servidor HTTP de Registry sobre Docker Proxy)
+					</section>
+					<section data-state="skyslide" data-markdown>
+						### Gitlab Community Edition
+						#### (Docker)
+						Originalmente para persistencia de código.
+						- **Produccion:**
+							+ _Alias:_ gitlab.localhost
+							+ _Puertos:_
+								- 80/HTTP (NGinX - subdominio)
+								- 8101/HTTP (NGinX sobre Docker Proxy)
+								- 8122/SSH (sshd sobre Docker Proxy)
+								- 8143/HTTPS (NGinX sobre Docker Proxy)
+					</section>
+					<section data-state="skyslide" data-markdown>
+						### Moodle
+						#### (Docker)
+						Para probar integración LTI con GitEDU.
+						- **Produccion:**
+							+ _Alias:_ moodle.localhost
+							+ _Puertos:_
+								- 80/HTTP (NGinX - subdominio)
+								- 8201/HTTP (Apache sobre Docker Proxy)
+					</section>
+					<section data-state="skyslide" data-markdown>
+						### Moodledb
+						#### (MySQL/MariaDB para Moodle en Docker)
+						Para probar integración LTI con GitEDU.
+						- **Produccion:**
+							+ _Puertos:_
+								- 3306/TCP (MySQL/MariaDB sobre Docker Proxy)
+					</section>
+				</section>
+
+				<section>
+					<section data-background="img/bg2.png" data-markdown data-state="lightslide">
+						### GitEDU
+					</section>
+					<section data-markdown data-state="bloodslide">
+						Proyecto de Django con los siguientes Apps:
+						- academicApp
+						- authApp
+						- gradesApp
+						- ideApp
+						- socialApp
+					</section>
+					<section data-markdown data-state="bloodslide">
+						### academicApp
+						#### _Sin Implementar_
+						Para llevar aspectos academicos como:
+						- Materias
+						- Examenes
+						- Talleres
+						- Deberes
+						- etc...
+					</section>
+					<section data-markdown data-state="bloodslide">
+						### authApp
+						Para llevar todo lo relacionado con autenticación de usuarios. Actualmente soporta:
+						- Autenticación Classica
+						- Autenticación por LTI
+					</section>
+					<section data-markdown data-state="bloodslide">
+						### gradesApp
+						#### _Sin Implementar_
+						Para ayudar, conjuntamente con sistemas y servicios externos, en la gestion de notas de:
+						- Materias
+						- Examenes
+						- Talleres
+						- Deberes
+						- etc...
+					</section>
+					<section data-markdown data-state="bloodslide">
+						### ideApp
+						Para el manejo de codigo en la plataforma. Permite la gestion de:
+						- namespace
+						- repositorios
+						- archivos dentro de repositorios, los mismos que son editables
+					</section>
+					<section data-markdown data-state="bloodslide">
+						### socialApp
+						#### _Sin Implementar_
+						Para gestion de aspectos sociales de la plataforma, por ejemplo permisos en namespace / repositorios / archivos e interacciones sociales entre usuarios, sea chat en linea o compartir proyectos entre varios usuarios.
+					</section>
+				</section>
+
+				<section>
+					<section data-background="img/bg2.png" data-markdown data-state="lightslide">
+						### EduNube
+					</section>
+					<section data-markdown data-state="moonslide">
+						Proyecto de Django con los siguientes Apps:
+						- apiApp
+						- authApp
+					</section>
+					<section data-markdown data-state="moonslide">
+						### apiApp
+						Expone, a traves de un API REST y serializacion en JSON, hipervisores (por el momento solo Kubernetes) a solicitudes de ejecuccion (trabajos por lotes). Protegido con API Tokens generados y validados por [JWT](https://jwt.io/) (Definido en [RFC 7519](https://tools.ietf.org/html/rfc7519)).
+					</section>
+					<section data-markdown data-state="moonslide">
+						### authApp
+						Para llevar todo lo relacionado con autenticación de usuarios. Actualmente soporta:
+						- Autenticación Classica
+
+						Tambien apoya en la gestion de los API Tokens necesarias para utilizar el apiApp.
+					</section>
+				</section>
+
+				<section>
+					<section data-background="img/bg2.png" data-markdown data-state="lightslide">
+						### GitServerHTTPEndpoint
+					</section>
+					<section data-markdown data-state="leagueslide">
+						Igual que EduNube, es un proyecto de Django con los siguientes Apps:
+						- apiApp
+						- authApp
+					</section>
+					<section data-markdown data-state="leagueslide">
+						### apiApp
+						Expone, a traves de un API REST y serializacion en JSON, servidores de Git (por el momento solo GitWeb) y el sistema de ficheros del servidor a solicitudes de persistir archivos en namespaces / repositories. Igual que EduNube es protegido con API Tokens generados y validados por [JWT](https://jwt.io/) (Definido en [RFC 7519](https://tools.ietf.org/html/rfc7519)).
+					</section>
+					<section data-markdown data-state="leagueslide">
+						### authApp
+						##### _Completamente igual a EduNube_
+						Para llevar todo lo relacionado con autenticación de usuarios. Actualmente soporta:
+						- Autenticación Classica
+
+						Tambien apoya en la gestion de los API Tokens necesarias para utilizar el apiApp.
+					</section>
+				</section>
+
+				<section>
+					<section data-background="img/bg2.png" data-markdown data-state="lightslide">
+						### Sistema de metadatos
+						#### para proveer mayor seguridad de ejecucción
+					</section>
+					<section data-markdown data-state="solarizedslide">
+						Tipos de Archivos de Metadato Definidos:
+						- .edunubeignore
+						- .edunubeignore.children
+						- .repospec
+						- .templateinclude
+					</section>
+					<section data-markdown data-state="solarizedslide">
+						### .repospec
+						#### Utilizado y creado por EduNube
+						Lleva de forma cifrada en un archivo de texto plano metadatos del repositorio que es y el repositorio de que se hereda. No se valida todavia que el mismo repospec se autoidentifica el repositorio correcto (para prevenir ataques de robo de identidad de un repositorio para otro). Se basa en la misma tecnologia de los API Tokens, es decir [JWT](https://jwt.io/) (Definido en [RFC 7519](https://tools.ietf.org/html/rfc7519)).
+					</section>
+					<section data-markdown data-state="solarizedslide">
+						### .edunubeignore
+						#### Utilizado por EduNube, creado por administradores y professores
+						Similar al concepto de un `gitignore`, esta lista archivos del mismo repositorio que no deben ser copiados a los repositiorios y proyectos que extienden el mismo.
+					</section>
+					<section data-markdown data-state="solarizedslide">
+						### .edunubeignore.children
+						#### Utilizado por EduNube, creado por administradores y professores
+						Similar al concepto del `edunubeignore`, esta lista archivos del mismo repositorio que no deben ser sobreescritos por los repositiorios y proyectos que extienden el mismo.
+					</section>
+					<section data-markdown data-state="solarizedslide">
+						### .templateinclude
+						#### Utilizado por GitEDU, creado por administradores y professores
+						Similar al concepto del `edunubeignore`, esta lista archivos del mismo repositorio que, al momento que un repositiorio o proyecto que extienden el mismo, deben ser copiados para formar la version inicial que edita un professor o estudiante.
+					</section>
+				</section>
 			</div>
 		</div>
 
@@ -44,6 +393,28 @@
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
 			});
+
+			Reveal.addEventListener( 'lightslide', function() {
+					document.getElementById('theme').setAttribute('href','css/theme/white.css');
+			}, false );
+			Reveal.addEventListener( 'darkslide', function() {
+					document.getElementById('theme').setAttribute('href','css/theme/black.css');
+			}, false );
+			Reveal.addEventListener( 'skyslide', function() {
+					document.getElementById('theme').setAttribute('href','css/theme/sky.css');
+			}, false );
+			Reveal.addEventListener( 'bloodslide', function() {
+					document.getElementById('theme').setAttribute('href','css/theme/blood.css');
+			}, false );
+			Reveal.addEventListener( 'moonslide', function() {
+					document.getElementById('theme').setAttribute('href','css/theme/moon.css');
+			}, false );
+			Reveal.addEventListener( 'leagueslide', function() {
+					document.getElementById('theme').setAttribute('href','css/theme/league.css');
+			}, false );
+			Reveal.addEventListener( 'solarizedslide', function() {
+					document.getElementById('theme').setAttribute('href','css/theme/solarized.css');
+			}, false );
 		</script>
 	</body>
 </html>
