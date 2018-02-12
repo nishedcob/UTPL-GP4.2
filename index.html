@@ -44,6 +44,90 @@
 					<p><b>Director:</b> Dr. Jorge López</p>
 				</section>
 
+				<section data-background="img/bg1.png" data-state="darkslide" data-markdown>
+					### Objetivo General
+					Mejorar la enseñanza y evaluación de estudiantes de programación de la Universidad Técnica Particular de Loja.
+				</section>
+
+				<section data-background="img/bg1.png" data-state="darkslide" data-markdown>
+					#### Objetivos Especificos
+					+ Facilitar la autenticación de los estudiantes mediante protocolo LTI.
+					+ Proveer la capacidad de poder ejecutar código en línea.
+					+ Autocalificar código en base a pruebas unitarias.
+					+ Controlar versiones de código editado.
+					+ Recolectar datos para la toma de decisiones estratégicas.
+				</section>
+
+				<section data-background="img/bg1.png" data-state="darkslide">
+					<h4>Propuesta</h4>
+					<table>
+						<tbody>
+								<tr>
+									<td><b>Problema:</b> <small>La ausencia de adecuadas herramientas educativas para estudiantes de programación de la UTPL.</small></td>
+									<td><b>Solución:</b> <small>Un plataforma para editar y ejecutar código en línea.</small></td>
+								</tr>
+								<tr>
+									<td><b>Desarrollo:</b> <small>Tres servicios especializados: GitEDU, EduNube, GitServerHTTPEndpoint.</small></td>
+									<td><b>Resultados:</b> <small>Un plataforma prototipo para editar y ejecutar código en línea.</small></td>
+								</tr>
+						</tbody>
+					</table>
+				</section>
+
+				<!--
+					El avance del trabajo de titulación del primer bimestre incluye las secciones 4.1 (Preparaciones de Desarrollo),
+					4.2 (GitEDU ; servicio de IDE en linea) y un avance inicial de 4.3 (EduNube ; servicio de ejecución de codigo)
+					del capitulo 4 de Desarrollo.
+
+					En el segundo bimestre del GP 4.2, se avanzó terminar el capitulo 4 (de Desarrollo ; especialmente la sección
+					4.3 de EduNube ; Servicio para Ejecución de Código), el capitulo 5 (de pruebas), el capitulo 6 (de despliegue),
+					el capitulo 7 (de conclusiones) y el capitulo 8 (de recomendaciones y trabajos futuros). Tambien se adjuntaron
+					los Anexos C, E, D (de desarrollo: Preparaciones [incluyendo GitServerHTTPEndpoint], GitEDU, y EduNube
+					respectivamente), F, G, H (de pruebas de: GitEDU, EduNube y GitServerHTTPEndpoint respectivamente) y I de
+					ubicaciones, rutas y licencias de repositorios para quienes trabajan al proyecto a futuro pueden guiarse en
+					base a donde se ha ubicado todo el código respectivo del proyecto.
+			 	-->
+
+				<section>
+					<section data-background="img/bg2.png" data-markdown data-state="lightslide">
+						### Trabajo realizado en este ciclo
+					</section>
+					<section data-markdown data-state="darkslide">
+						### Capitulo 4
+						Tres servicios en Django:
+						- GitEDU
+						- EduNube
+						- GitServerHTTPEndpoint
+					</section>
+					<section data-markdown data-state="darkslide">
+						### Capitulo 5
+						Pruebas contra funcionalidades y API endpoints.
+
+						**No se avanzó a realizar:** Pruebas unitarias.
+					</section>
+					<section data-markdown data-state="darkslide">
+						### Capitulo 6
+						Despliegue basado en Systemd, Proxies de NGinX, Git y OpenSSH.
+					</section>
+					<section data-markdown data-state="darkslide">
+						### Capitulo 7
+						- Resultados
+						- Conclusiones
+						- Recomendaciones
+						- Trabajos Futuros
+					</section>
+				</section>
+
+				<section>
+					<section data-background="img/bg2.png" data-markdown data-state="lightslide">
+						### Resumen de Flujos Principales de Ejeccución
+					</section>
+					<section data-state="lightslide">
+						<img src="img/gitedu_tesis_simple_services_diagram.png" width="75%">
+					</section>
+				</section>
+
+				<!--
 				<section>
 					<section data-background="img/bg2.png" data-markdown data-state="lightslide">
 						### Arquitectura de la Solución
@@ -244,11 +328,68 @@
 								- 3306/TCP (MySQL/MariaDB sobre Docker Proxy)
 					</section>
 				</section>
+				-->
 
 				<section>
 					<section data-background="img/bg2.png" data-markdown data-state="lightslide">
+						### Sistema de metadatos
+						#### para proveer mayor seguridad de ejecucción
+					</section>
+					<section data-markdown data-state="solarizedslide">
+						Tipos de Archivos de Metadato Definidos:
+						- .edunubeignore
+						- .edunubeignore.children
+						- .repospec
+						- .templateinclude
+					</section>
+					<section data-markdown data-state="solarizedslide">
+						### .repospec
+						#### Utilizado y creado por EduNube
+						Lleva de forma cifrada en un archivo de texto plano metadatos del repositorio que es y el repositorio de que se hereda. No se valida todavia que el mismo repospec se autoidentifica el repositorio correcto (para prevenir ataques de robo de identidad de un repositorio para otro). Se basa en la misma tecnologia de los API Tokens, es decir [JWT](https://jwt.io/) (Definido en [RFC 7519](https://tools.ietf.org/html/rfc7519)).
+					</section>
+					<section data-markdown data-state="solarizedslide">
+						### .edunubeignore
+						#### Utilizado por EduNube, creado por administradores y professores
+						Similar al concepto de un `gitignore`, esta lista archivos del mismo repositorio que no deben ser copiados a los repositiorios y proyectos que extienden el mismo.
+					</section>
+					<section data-markdown data-state="solarizedslide">
+						### .edunubeignore.children
+						#### Utilizado por EduNube, creado por administradores y professores
+						Similar al concepto del `edunubeignore`, esta lista archivos del mismo repositorio que no deben ser sobreescritos por los repositiorios y proyectos que extienden el mismo.
+					</section>
+					<section data-markdown data-state="solarizedslide">
+						### .templateinclude
+						#### Utilizado por GitEDU, creado por administradores y professores
+						Similar al concepto del `edunubeignore`, esta lista archivos del mismo repositorio que, al momento que un repositiorio o proyecto que extienden el mismo, deben ser copiados para formar la version inicial que edita un professor o estudiante.
+
+						**Aun no se implementa en GitEDU**
+					</section>
+				</section>
+
+				<section data-background="img/bg2.png" data-markdown data-state="lightslide">
+					### Servicios
+				</section>
+
+				<section>
+					<section data-background="img/bg3.png" data-markdown data-state="lightslide">
 						### GitEDU
 					</section>
+					<section data-state="darkslide">
+						<img src="img/gitedu_login.png" width="90%">
+					</section>
+					<section data-state="darkslide">
+						<img src="img/gitedu_user_perfil.png" width="90%">
+					</section>
+					<section data-state="darkslide">
+						<img src="img/gitedu_ns.png" width="90%">
+					</section>
+					<section data-state="darkslide">
+						<img src="img/gitedu_repo.png" width="90%">
+					</section>
+					<section data-state="darkslide">
+						<img src="img/gitedu_code_edit_exec.png" width="90%">
+					</section>
+					<!--
 					<section data-markdown data-state="bloodslide">
 						Proyecto de Django con los siguientes Apps:
 						- academicApp
@@ -295,12 +436,23 @@
 						#### _Sin Implementar_
 						Para gestion de aspectos sociales de la plataforma, por ejemplo permisos en namespace / repositorios / archivos e interacciones sociales entre usuarios, sea chat en linea o compartir proyectos entre varios usuarios.
 					</section>
+					-->
 				</section>
 
 				<section>
-					<section data-background="img/bg2.png" data-markdown data-state="lightslide">
+					<section data-background="img/bg3.png" data-markdown data-state="lightslide">
 						### EduNube
 					</section>
+					<section data-state="darkslide">
+						<img src="img/edunube_login.png" width="90%">
+					</section>
+					<section data-state="darkslide">
+						<img src="img/edunube_token_dashboard.png" width="90%">
+					</section>
+					<section data-state="darkslide">
+						<img src="img/edunube_gestion_token.png" width="90%">
+					</section>
+					<!--
 					<section data-markdown data-state="moonslide">
 						Proyecto de Django con los siguientes Apps:
 						- apiApp
@@ -317,14 +469,25 @@
 
 						Tambien apoya en la gestion de los API Tokens necesarias para utilizar el apiApp.
 					</section>
+					-->
 				</section>
 
 				<section>
-					<section data-background="img/bg2.png" data-markdown data-state="lightslide">
+					<section data-background="img/bg3.png" data-markdown data-state="lightslide">
 						### GitServerHTTPEndpoint
 					</section>
+					<section data-state="darkslide">
+						<img src="img/gitserverhttpendpoint_login.png" width="90%">
+					</section>
+					<section data-state="darkslide">
+						<img src="img/gitserverhttpendpoint_token_dashboard.png" width="90%">
+					</section>
+					<section data-state="darkslide">
+						<img src="img/gitserverhttpendpoint_gestion_token.png" width="90%">
+					</section>
+					<!--
 					<section data-markdown data-state="leagueslide">
-						Igual que EduNube, es un proyecto de Django con los siguientes Apps:
+						Igual que gitserverhttpendpoint, es un proyecto de Django con los siguientes Apps:
 						- apiApp
 						- authApp
 					</section>
@@ -340,40 +503,7 @@
 
 						Tambien apoya en la gestion de los API Tokens necesarias para utilizar el apiApp.
 					</section>
-				</section>
-
-				<section>
-					<section data-background="img/bg2.png" data-markdown data-state="lightslide">
-						### Sistema de metadatos
-						#### para proveer mayor seguridad de ejecucción
-					</section>
-					<section data-markdown data-state="solarizedslide">
-						Tipos de Archivos de Metadato Definidos:
-						- .edunubeignore
-						- .edunubeignore.children
-						- .repospec
-						- .templateinclude
-					</section>
-					<section data-markdown data-state="solarizedslide">
-						### .repospec
-						#### Utilizado y creado por EduNube
-						Lleva de forma cifrada en un archivo de texto plano metadatos del repositorio que es y el repositorio de que se hereda. No se valida todavia que el mismo repospec se autoidentifica el repositorio correcto (para prevenir ataques de robo de identidad de un repositorio para otro). Se basa en la misma tecnologia de los API Tokens, es decir [JWT](https://jwt.io/) (Definido en [RFC 7519](https://tools.ietf.org/html/rfc7519)).
-					</section>
-					<section data-markdown data-state="solarizedslide">
-						### .edunubeignore
-						#### Utilizado por EduNube, creado por administradores y professores
-						Similar al concepto de un `gitignore`, esta lista archivos del mismo repositorio que no deben ser copiados a los repositiorios y proyectos que extienden el mismo.
-					</section>
-					<section data-markdown data-state="solarizedslide">
-						### .edunubeignore.children
-						#### Utilizado por EduNube, creado por administradores y professores
-						Similar al concepto del `edunubeignore`, esta lista archivos del mismo repositorio que no deben ser sobreescritos por los repositiorios y proyectos que extienden el mismo.
-					</section>
-					<section data-markdown data-state="solarizedslide">
-						### .templateinclude
-						#### Utilizado por GitEDU, creado por administradores y professores
-						Similar al concepto del `edunubeignore`, esta lista archivos del mismo repositorio que, al momento que un repositiorio o proyecto que extienden el mismo, deben ser copiados para formar la version inicial que edita un professor o estudiante.
-					</section>
+					-->
 				</section>
 			</div>
 		</div>
